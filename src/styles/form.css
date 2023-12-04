@@ -1,0 +1,13 @@
+.form {
+  align-self: flex-start;
+}
+
+.form__description {
+  margin-bottom: 30px;
+}
+
+.form__control {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
