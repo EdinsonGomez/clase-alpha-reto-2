@@ -1,31 +1,13 @@
 <script setup>
+  import InputFile from './components/InputFile.vue';
   import { computed, ref } from 'vue';
   import { proccessTxt } from 'src/helpers/fileHelper';
-  import { saveAverages, getAverages } from 'src/services/averages';
-  import { fileStatus, tableStatus } from 'src/constans';
+  import { getAverages } from 'src/services/averages';
+  import { tableStatus } from './constans';
   
   const list = ref([]);
   const loading = ref(false);
-  const statusText = ref('');
-  const statusClass = ref('request__status--loading');
   const showListError = ref(false);
-
-  const onSelectFile = async ({ target }) => {
-    try {
-      statusText.value = fileStatus.PROCESSING;
-    
-    const docsList = await proccessTxt(target.files[0])
-      await saveAverages(docsList);
-      
-      statusText.value = fileStatus.SAVED;
-      statusClass.value = 'request__status--success';
-
-      onLoadList();
-    } catch(error) {
-      statusClass.value = 'request__status--error'
-      statusText.value = fileStatus.ERROR;
-    }
-  }
 
   const onLoadList = async () => {
     try {
@@ -33,19 +15,19 @@
       const listData = await getAverages();
       list.value = listData.toSorted((a, b) => a.order - b.order);
     } catch(error) {
-      showListError.value = true; 
+      showListError.value = true;
     }
     
     loading.value = false;
   }
 
+  const refreshList = () => {
+    onLoadList();
+  }
+
   const emptyList = computed(() => {
     return !list.value.length && !loading.value;
   });
-
-  const showStatusText = computed(() => {
-    return !!statusText.value;
-  })
 
   onLoadList();
 </script>
@@ -56,19 +38,7 @@
   </header>
   <main class="main__container">
     <section class="section">
-      <form class="form">
-        <p class="form__description">
-          Selecciona un archivo de tipo .txt y podras ver su información representada en la tabla.
-        </p>
-        <div class="form__control">
-          <label for="file">Subir archivo: </label>
-          <input id="file" type="file" accept=".txt" @change="onSelectFile">
-        </div>
-      </form>
-
-      <div class="request" v-if="showStatusText">
-        <p class="request__status" :class="statusClass">{{ statusText }}</p>
-      </div>
+      <InputFile @onRefreshList="refreshList" />
 
       <div class="table__container">
         <table class="table">
