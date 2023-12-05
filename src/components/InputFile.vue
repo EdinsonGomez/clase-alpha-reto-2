@@ -1,11 +1,11 @@
 <script setup>
   import { ref, computed } from "vue";
+  import { useAveragesStore } from 'src/store/averages';
   import { fileStatus } from "src/constans";
   import { saveAverages } from "src/services/averages";
   import { proccessTxt } from 'src/helpers/fileHelper';
 
-  const emit = defineEmits(["onRefreshList"]);
-
+  const store = useAveragesStore();
   const statusText = ref("");
   const statusClass = ref("request__status--loading");
 
@@ -19,7 +19,7 @@
       statusText.value = fileStatus.SAVED;
       statusClass.value = "request__status--success";
 
-      emit('onRefreshList');
+      store.getList();
     } catch (error) {
       statusClass.value = "request__status--error";
       statusText.value = fileStatus.ERROR;
