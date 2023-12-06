@@ -7,14 +7,15 @@
   --color-success: #31bd93;
   --color-info: #0280c4;
   --color-error: #df3c4f;
+  --color-light-gray-hover: rgba(223, 223, 223, 0.7);
+  --color-btn-primary: #03669b;
+  --color-btn-primary-hover: #035480;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  /* color: rgba(255, 255, 255, 0.87); */
-  /* background-color: #242424; */
   color: var(--color-black);
   background-color: var(--color-white);
 

@@ -13,6 +13,11 @@
     return !!store.error;
   });
 
+  const list = computed(() => {
+    if (store.loading) return [];
+    return store.list;
+  })
+
   store.getList();
 </script>
 
@@ -38,7 +43,7 @@
             {{ tableStatus.EMPTY }}
           </td>
         </tr>
-        <tr class="table__row" v-for="row in store.list" :key="row.id">
+        <tr class="table__row" v-for="row in list" :key="row.id">
           <td>{{ row.order }}</td>
           <td>{{ row.name }}</td>
           <td>{{ row.id }}</td>
